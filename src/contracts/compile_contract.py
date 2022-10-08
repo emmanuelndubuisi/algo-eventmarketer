@@ -7,7 +7,7 @@ if __name__ == "__main__":
     clear_program = Event().clear_program()
 
     # Mode.Application specifies that this is a smart contract
-    compiled_approval = compileTeal(approval_program, Mode.Application, version=6)
+    compiled_approval = compileTeal(approval_program, Mode.Application, version=7)
     print(compiled_approval)
     with open("eventmarketer_approval.teal", "w") as teal:
         teal.write(compiled_approval)

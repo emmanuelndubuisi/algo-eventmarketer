@@ -1,4 +1,4 @@
-#pragma version 6
+#pragma version 7
 txn ApplicationID
 int 0
 ==
@@ -20,6 +20,15 @@ main_l5:
 byte "BOOKED"
 int 0
 app_global_put
+byte "BOOKEDTILL"
+int 0
+app_global_put
+byte "CUSTOMER"
+byte ""
+app_global_put
+byte "BOOKEDBY"
+byte ""
+app_global_put
 int 1
 return
 main_l6:
@@ -27,13 +36,28 @@ global GroupSize
 int 2
 ==
 txn NumAppArgs
-int 2
+int 3
 ==
 &&
 byte "BOOKED"
 app_global_get
 int 0
 ==
+&&
+byte "ADDRESS"
+app_global_get
+txn Sender
+!=
+&&
+txna ApplicationArgs 1
+len
+int 0
+>
+&&
+txna ApplicationArgs 2
+btoi
+txn FirstValidTime
+>
 &&
 assert
 gtxn 1 TypeEnum
@@ -54,14 +78,18 @@ gtxn 0 Sender
 ==
 &&
 assert
-byte "OWNER"
+byte "BOOKEDBY"
 txna ApplicationArgs 1
 app_global_put
-byte "ADDRESS"
+byte "CUSTOMER"
 gtxn 1 Sender
 app_global_put
 byte "BOOKED"
 int 1
+app_global_put
+byte "BOOKEDTILL"
+txna ApplicationArgs 2
+btoi
 app_global_put
 int 1
 return
@@ -74,15 +102,35 @@ main_l8:
 txn NumAppArgs
 int 5
 ==
-assert
 txn Note
 byte "eventmarketer:uv1"
 ==
-assert
+&&
 txna ApplicationArgs 3
 btoi
 int 0
 >
+&&
+txna ApplicationArgs 0
+len
+int 0
+>
+&&
+txna ApplicationArgs 1
+len
+int 0
+>
+&&
+txna ApplicationArgs 2
+len
+int 0
+>
+&&
+txna ApplicationArgs 4
+len
+int 0
+>
+&&
 assert
 byte "NAME"
 txna ApplicationArgs 0
@@ -105,6 +153,15 @@ global CreatorAddress
 app_global_put
 byte "OWNER"
 txna ApplicationArgs 4
+app_global_put
+byte "BOOKEDBY"
+byte ""
+app_global_put
+byte "CUSTOMER"
+byte ""
+app_global_put
+byte "BOOKEDTILL"
+int 0
 app_global_put
 int 1
 return
