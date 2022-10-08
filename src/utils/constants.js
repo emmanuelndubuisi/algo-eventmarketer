@@ -26,6 +26,6 @@ export const marketplaceNote = "eventmarketer:uv1"
 export const numLocalInts = 0;
 export const numLocalBytes = 0;
 // Maximum global storage allocation, immutable
-export const numGlobalInts = 2; // Global variables stored as Int: count, sold
-export const numGlobalBytes = 5; // Global variables stored as Bytes: name, description, image
+export const numGlobalInts = 3; // Global variables stored as Int: booked, bookedTill, amount
+export const numGlobalBytes = 7; // Global variables stored as Bytes: name, description, image, address, customerAddress, owner, bookedBy
 export const ALGORAND_DECIMALS = 6; 
