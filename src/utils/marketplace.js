@@ -37,8 +37,7 @@ const compileProgram = async (programSource) => {
 
 // CREATE Event: ApplicationCreateTxn
 export const createEventAction = async (senderAddress, event) => {
-    console.log(event.name, event.description, event.image, event.amount);
-    console.log("Creating event...")
+    
 
     let params = await algodClient.getTransactionParams().do();
     params.fee = algosdk.ALGORAND_MIN_TX_FEE;
@@ -79,25 +78,25 @@ export const createEventAction = async (senderAddress, event) => {
 
     // Sign & submit the transaction
     let signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-    console.log("Signed transaction with txID: %s", txId);
+    
     await algodClient.sendRawTransaction(signedTxn.blob).do();
 
     // Wait for transaction to be confirmed
     let confirmedTxn = await algosdk.waitForConfirmation(algodClient, txId, 4);
 
     // Get the completed Transaction
-    console.log("Transaction " + txId + " confirmed in round " + confirmedTxn["confirmed-round"]);
+    
 
     // Get created application id and notify about completion
     let transactionResponse = await algodClient.pendingTransactionInformation(txId).do();
     let appId = transactionResponse['application-index'];
-    console.log("Created new app-id: ", appId);
+    
     return appId;
 }
 
 // Book event: Group transaction consisting of ApplicationCallTxn and PaymentTxn
 export const bookEventAction = async (senderAddress, event) => {
-    console.log("Booking event...", senderAddress);
+    
 
     let params = await algodClient.getTransactionParams().do();
     params.fee = algosdk.ALGORAND_MIN_TX_FEE;
@@ -133,19 +132,19 @@ export const bookEventAction = async (senderAddress, event) => {
 
     // Sign & submit the group transaction
     let signedTxn = await myAlgoConnect.signTransaction(txnArray.map(txn => txn.toByte()));
-    console.log("Signed group transaction");
+    
     let tx = await algodClient.sendRawTransaction(signedTxn.map(txn => txn.blob)).do();
 
     // Wait for group transaction to be confirmed
     let confirmedTxn = await algosdk.waitForConfirmation(algodClient, tx.txId, 4);
 
     // Notify about completion
-    console.log("Group transaction " + tx.txId + " confirmed in round " + confirmedTxn["confirmed-round"]);
+    
 }
 
 
 export const sellTicketAction = async (senderAddress, event) => {
-    console.log("Selling Ticket...");
+    
 
     let params = await algodClient.getTransactionParams().do();
     params.fee = algosdk.ALGORAND_MIN_TX_FEE;
@@ -169,19 +168,19 @@ export const sellTicketAction = async (senderAddress, event) => {
 
     // Sign & submit the transaction
     let signedTxn = await myAlgoConnect.signTransaction(appCallTxn.toByte());
-    console.log("Signed transaction with txID: %s", txId);
+    
     await algodClient.sendRawTransaction(signedTxn.blob).do();
 
     // Wait for transaction to be confirmed
     let confirmedTxn = await algosdk.waitForConfirmation(algodClient, txId, 4);
 
     // Get the completed Transaction
-    console.log("Transaction " + txId + " confirmed in round " + confirmedTxn["confirmed-round"]);
+    
 }
 
 
 export const deleteTicketAction = async (senderAddress, index) => {
-    console.log("Deleting application...");
+    
 
     let params = await algodClient.getTransactionParams().do();
     params.fee = algosdk.ALGORAND_MIN_TX_FEE;
@@ -197,23 +196,23 @@ export const deleteTicketAction = async (senderAddress, index) => {
 
     // Sign & submit the transaction
     let signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-    console.log("Signed transaction with txID: %s", txId);
+    
     await algodClient.sendRawTransaction(signedTxn.blob).do();
 
     // Wait for transaction to be confirmed
     const confirmedTxn = await algosdk.waitForConfirmation(algodClient, txId, 4);
 
     // Get the completed Transaction
-    console.log("Transaction " + txId + " confirmed in round " + confirmedTxn["confirmed-round"]);
+    
 
     // Get application id of deleted application and notify about completion
     let transactionResponse = await algodClient.pendingTransactionInformation(txId).do();
     let appId = transactionResponse['txn']['txn'].apid;
-    console.log("Deleted app-id: ", appId);
+    
 }
 
 export const getEventsAction = async () => {
-    console.log("Fetching events...")
+    
     let note = new TextEncoder().encode(marketplaceNote);
     let encodedNote = Buffer.from(note).toString("base64");
 
@@ -235,9 +234,7 @@ export const getEventsAction = async () => {
            
         }
     }
-    console.log(events);
-    console.log("events fetched.")
-    return events
+        return events
 }
 
 const getApplication = async (appId) => {
