@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
+import Cover from "./Cover";
 import { indexerClient, myAlgoConnect } from "./utils/constants";
 import { stringToMicroAlgos, microAlgosToString } from './utils/conversions';
 import { bookEventAction, createEventAction, deleteTicketAction, getEventsAction, sellTicketAction } from './utils/marketplace';
@@ -38,10 +39,6 @@ function App() {
         console.error(error);
       })
   };
-
-  useEffect(() => {
-    connectWallet()
-  }, [])
 
 
   const formSubmit = async (e) => {
@@ -102,7 +99,7 @@ function App() {
 
   return (
     <>
-      <div>
+      {address ? <div>
         <header className="site-header sticky-top py-1">
           <nav className="container d-flex flex-column flex-md-row justify-content-between">
             <a className="py-2" style={{ color: "white" }} href="#">
@@ -197,7 +194,7 @@ function App() {
             </form>
           </div>
         </div>
-      </div>
+      </div> : <Cover name={"Event Marketer"} coverImg={"https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGFydHl8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60"} connect={connectWallet} />}
     </>
   );
 }
